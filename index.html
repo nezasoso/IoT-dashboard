@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IoT Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>IoT Sensor Dashboard</h1>
+
+    <canvas id="sensorChart" width="800" height="400"></canvas>
+
+    <script>
+        const ctx = document.getElementById('sensorChart').getContext('2d');
+
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ timestamps|tojson }},
+                datasets: [
+                    {
+                        label: 'Humidity (%)',
+                        data: {{ humidity|tojson }},
+                        borderColor: 'blue',
+                        fill: false
+                    },
+                    {
+                        label: 'Temperature (°C)',
+                        data: {{ temperature|tojson }},
+                        borderColor: 'red',
+                        fill: false
+                    },
+                    {
+                        label: 'Soil Moisture (%)',
+                        data: {{ soil_moisture|tojson }},
+                        borderColor: 'green',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Sensor Data Over Time'
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: { display: true, text: 'Time' }
+                    },
+                    y: {
+                        display: true,
+                        title: { display: true, text: 'Value' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
